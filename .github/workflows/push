@@ -1,3 +1,33 @@
 git add .github/workflows/ci.yml
 git commit -m "Add CI workflow"
 git push origin main
+
+
+yaml
+
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Deploy to Netlify
+        uses: netlify/actions/deploy@v1.1.0
+        with:
+          publish-dir: ./dist
+          production: true
